@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101417">
+<meta name="description" content="Recorrido virtual 360° del Laboratorio de Manufactura Flexible – CIM, Carrera de Ingeniería Industrial, Universidad de Lima.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Laboratorio CIM · Experiencia 360° | Universidad de Lima</title>
+<link rel="icon" href="logo-ulima.png" type="image/png">
+<link rel="preload" as="image" href="hero.jpg" fetchpriority="high">
+<link rel="stylesheet" href="style.css?v=10.0.0">
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+ <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+ <symbol id="i-forward" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></symbol>
+ <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+ <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+ <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+ <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+ <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.3"/><rect x="14" y="3" width="7" height="7" rx="1.3"/><rect x="3" y="14" width="7" height="7" rx="1.3"/><rect x="14" y="14" width="7" height="7" rx="1.3"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+ <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+ <symbol id="i-expand" viewBox="0 0 24 24"><path d="m8 8-5-5m0 5V3h5m8 5 5-5m-5 0h5v5M8 16l-5 5m0-5v5h5m8-5 5 5m-5 0h5v-5"/></symbol>
+ <symbol id="i-compress" viewBox="0 0 24 24"><path d="m3 3 6 6m-5 0h5V4m12-1-6 6m0-5v5h5M3 21l6-6m-5 0h5v5m12 1-6-6m0 5v-5h5"/></symbol>
+ <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2 6M20 4v7h-7"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+ <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.4 5-4.6 2 2.4-5z"/></symbol>
+ <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.6 5.1A11.5 11.5 0 0 1 12 5c6 0 10 7 10 7a16 16 0 0 1-3 3.5M6.4 6.5C3.5 8.1 2 12 2 12s4 7 10 7a10.7 10.7 0 0 0 4.1-.8M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+ <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+</svg>
+<main class="tour" id="app">
+ <div id="pano" class="pano" role="region" aria-label="Visor panorámico 360 grados"></div>
+ <div id="poster" class="poster" aria-hidden="true"></div>
+ <div id="sceneTransition" class="scene-transition" aria-hidden="true">
+   <div id="transitionImage" class="transition-image"></div>
+   <div class="transition-tint"></div>
+   <div class="transition-label"><span class="transition-rule"></span><span>RECORRIDO CIM</span><strong id="transitionName">Vista 01</strong><span class="transition-status">Cargando panorama</span></div>
+ </div>
+ <div class="vignette" aria-hidden="true"></div>
+ <header id="chromeTop" class="top-bar reveal-ui" aria-label="Cabecera del recorrido">
+   <div class="brand"><img src="logo-ulima.png" alt="Universidad de Lima" width="397" height="125"><span class="brand-divider"></span><div class="brand-txt"><strong>Laboratorio de Manufactura Flexible <em>— CIM</em></strong><small>Carrera de Ingeniería Industrial</small></div></div>
+   <div class="top-actions">
+     <span class="top-micro">EXPERIENCIA 360°</span>
+     <button id="focusMode" class="icon-button" type="button" title="Modo inmersivo · ocultar interfaz (H)" aria-label="Modo inmersivo: ocultar interfaz" aria-pressed="false"><svg class="ico"><use href="#i-eye-off"/></svg></button>
+     <button id="infoOpen" class="icon-button" type="button" title="Información" aria-label="Información"><svg class="ico"><use href="#i-info"/></svg></button>
+     <button id="fullscreen" class="icon-button" type="button" title="Pantalla completa (F)" aria-label="Entrar en pantalla completa" aria-pressed="false"><svg class="ico"><use href="#i-expand"/></svg></button>
+     <button id="galleryOpen" class="menu-button" type="button" aria-label="Explorar puntos del recorrido"><svg class="ico"><use href="#i-grid"/></svg><span>Explorar</span></button>
+   </div>
+ </header>
+ <div id="hint" class="hint reveal-ui" role="status" aria-live="polite"><span class="hint-ring"><svg class="ico"><use href="#i-compass"/></svg></span><span>Arrastra para mirar a tu alrededor</span><button id="hintClose" type="button" aria-label="Cerrar indicación"><svg class="ico"><use href="#i-close"/></svg></button></div>
+ <div class="side-tools reveal-ui" role="toolbar" aria-label="Herramientas de vista">
+   <button id="zoomIn" type="button" title="Acercar" aria-label="Acercar"><svg class="ico"><use href="#i-plus"/></svg></button>
+   <button id="zoomOut" type="button" title="Alejar" aria-label="Alejar"><svg class="ico"><use href="#i-minus"/></svg></button>
+   <span class="side-rule"></span>
+   <button id="autorotate" type="button" title="Rotación automática" aria-label="Activar giro automático" aria-pressed="false"><svg class="ico"><use href="#i-rotate"/></svg></button>
+ </div>
+ <div class="bottom-bar reveal-ui" role="navigation" aria-label="Navegación de las vistas">
+   <div class="scene-indicator"><div class="eyebrow"><span class="eyebrow-line"></span> RECORRIDO INMERSIVO</div><div class="scene-row"><strong id="pointName">Vista 01</strong><span class="count" id="pointCount">01 <span>/ 13</span></span></div></div>
+   <div class="scene-progress"><div class="progress-meta"><span>VISTAS DEL RECORRIDO</span><span id="visitedCount">01 / 13 visitadas</span></div><div id="routeTrack" class="route-track" role="group" aria-label="Acceso directo a las vistas"></div></div>
+   <div class="bottom-controls"><button id="prev" class="step-button" type="button" aria-label="Vista anterior" title="Vista anterior"><svg class="ico"><use href="#i-left"/></svg></button><button id="next" class="step-button next-button" type="button" aria-label="Vista siguiente" title="Vista siguiente"><span>Continuar</span><svg class="ico"><use href="#i-right"/></svg></button><button id="galleryBottom" class="step-button list-button" type="button" aria-label="Abrir galería de vistas" title="Galería de vistas"><svg class="ico"><use href="#i-grid"/></svg></button></div>
+ </div>
+ <button id="restore" class="restore" type="button" aria-label="Mostrar interfaz" hidden><svg class="ico"><use href="#i-eye"/></svg></button>
+ <div id="sceneCaption" class="scene-caption reveal-ui" aria-hidden="true"><span class="scene-caption-line"></span><span>LABORATORIO CIM</span><span>·</span><span id="sceneCaptionNum">01 / 13</span></div>
+ <div id="toast" class="toast" role="status" aria-live="polite"></div>
+ <div class="overlay" id="gallery" hidden role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+   <button class="overlay-shade" id="galleryShade" type="button" aria-label="Cerrar galería"></button>
+   <aside class="gallery-panel"><div class="panel-head"><div><span class="eyebrow">EXPLORAR LABORATORIO</span><h2 id="galleryTitle">Explora cada perspectiva.</h2><p class="gallery-description">Selecciona un panorama para continuar desde ese punto.</p></div><button class="icon-button" id="galleryClose" type="button" aria-label="Cerrar galería"><svg class="ico"><use href="#i-close"/></svg></button></div><div id="galleryItems" class="gallery-grid"></div><div class="panel-foot"><span id="galleryVisitCount">Exploración libre</span><span>13 panorámicas · 360°</span></div></aside>
+ </div>
+ <div class="overlay" id="info" hidden role="dialog" aria-modal="true" aria-labelledby="infoTitle"><button class="overlay-shade" id="infoShade" type="button" aria-label="Cerrar información"></button><div class="info-card"><button id="infoClose" class="icon-button close-info" type="button" aria-label="Cerrar"><svg class="ico"><use href="#i-close"/></svg></button><span class="eyebrow">UNIVERSIDAD DE LIMA</span><h2 id="infoTitle">Laboratorio de Manufactura Flexible – CIM</h2><p>Carrera de Ingeniería Industrial</p><div class="info-line"></div><p class="info-small">Arrastra para mirar a tu alrededor y selecciona los marcadores sobre la imagen para desplazarte. Usa «Explorar» para saltar directamente a cualquiera de las 13 perspectivas.</p><div class="shortcuts"><span><kbd>←</kbd> <kbd>→</kbd> Cambiar vista</span><span><kbd>H</kbd> Ocultar interfaz</span><span><kbd>F</kbd> Pantalla completa</span><span><kbd>Esc</kbd> Cerrar panel</span></div></div></div>
+ <section id="welcome" class="welcome" aria-labelledby="welcomeTitle" role="dialog" aria-modal="true">
+   <div class="welcome-media" aria-hidden="true"></div><div class="welcome-gradient" aria-hidden="true"></div>
+   <div class="welcome-frame">
+     <div class="welcome-top"><img src="logo-ulima.png" alt="Universidad de Lima" width="397" height="125"><span>UNIVERSIDAD DE LIMA <b>/</b> EXPERIENCIA DIGITAL</span></div>
+     <div class="welcome-copy">
+       <span class="welcome-overline"><span></span> RECORRIDO VIRTUAL INTERACTIVO <span class="tiny-360">360°</span></span>
+       <h1 id="welcomeTitle"><span>Una nueva</span><span>perspectiva de la</span><span><b>manufactura.</b></span></h1>
+       <p>Explora el <strong>Laboratorio de Manufactura Flexible — CIM</strong> de la Carrera de Ingeniería Industrial, Universidad de Lima.</p>
+       <div class="welcome-action"><button type="button" id="enter"><span>Comenzar recorrido</span><span class="enter-arrow"><svg class="ico"><use href="#i-arrow"/></svg></span></button><span class="welcome-note">13 panorámicas reales <i></i> Exploración libre</span></div>
+     </div>
+     <div class="welcome-bottom"><span>RECORRIDO360 <em>/ CIM</em></span><span class="welcome-scroll"><i></i> UN ESPACIO · MÚLTIPLES PERSPECTIVAS</span><span>INGENIERÍA INDUSTRIAL</span></div>
+   </div>
+ </section>
+</main>
+<script src="vendor/marzipano.js?v=10.0.0"></script>
+<script src="data.js?v=10.0.0"></script>
+<script src="app.js?v=10.0.0"></script>
+</body></html>

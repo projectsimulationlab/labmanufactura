@@ -1,0 +1,10 @@
+# Local / developer files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+__pycache__/
+.venv/
+.vscode/
+.idea/
+*.zip
