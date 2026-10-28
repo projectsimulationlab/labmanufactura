@@ -1,4 +1,4 @@
-# Recorrido360 CIM — v10
+# Recorrido360 CIM 
 
 Recorrido virtual de 13 vistas del Laboratorio de Manufactura Flexible — CIM, Universidad de Lima. Aplicación estática con **Marzipano local**; sin servicios externos ni compilación.
 
